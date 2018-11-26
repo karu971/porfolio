@@ -1,0 +1,14 @@
+<form class="" method="post">
+  <div>
+    <% for (getInterface of getInterfaces) { %>
+      <% if (getInterface != "id") { %>
+        <%- include('../form/input.ejs', {
+            sendData: sendDatas,
+            label: getInterface,
+            getInterface: sendDatas[getInterface]
+          }) %>
+      <% } %>
+    <% } %>
+  </div>
+  <button type="submit" class="btn btn-primary">Modifier</button>
+</form>

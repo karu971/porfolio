@@ -1,0 +1,10 @@
+
+<% for (listJson of listJsons) { %>
+
+<div class="form-check form-check-inline">
+  <input class="form-check-input" name="select-<%= type %>-<%= listJson.id %>" type="checkbox" id="select-<%= type %>-<%= listJson.id %>" value="<%= listJson.name %>">
+  <label class="form-check-label" for="select-<%= type %>-<%= listJson.id %>"><%= listJson.name %></label>
+</div>
+
+
+<% } %>

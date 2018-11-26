@@ -1,0 +1,141 @@
+{
+  "tink": {
+    "name": "Tink",
+    "date": {
+      "dateStart": {
+        "month": "September",
+        "year": "2017"
+      },
+      "dateEnd": {
+        "month": null,
+        "year": null
+      }
+    },
+    "place": "Montréal, QC",
+    "profession": "développeur Web",
+    "itCompetences": [
+      "Drupal8",
+      "JavaScript",
+      "SCSS",
+      "PHP / TWIG",
+      "GIT",
+      "Gulp",
+      "Webpack",
+      "HTML5",
+      "Responsive Design",
+      "JSON",
+      "Agile"
+    ],
+    "logo": "tink-logo.png",
+    "projects": {
+      "via-rail": {
+        "logo": "via-rail.png",
+        "image": "/static/images/projets/via-rail.jpg"
+      }
+    }
+  },
+  "cofomo": {
+    "name": "Cofomo",
+    "date": {
+      "dateStart": {
+        "month": "Février",
+        "year": "2017"
+      },
+      "dateEnd": {
+        "month": "Août",
+        "year": "2017"
+      }
+    },
+    "place": "Montréal, QC",
+    "profession": "développeur Web",
+    "itCompetences": [
+      "Drupal",
+      "JavaScript",
+      "html",
+      "Ruby on Rails",
+      "CSS",
+      "PHP",
+      "Git",
+      "HTML5",
+      "Responsive Design"
+    ],
+    "logo": "cofomo-logo.png",
+    "projects": {
+      "STM": {
+        "logo": "stm-logo.png",
+        "image": "/static/images/projets/via-rail.jpg"
+      }
+    }
+  },
+  "FLK Media": {
+    "name": "flk-Media",
+    "date": {
+      "dateStart": {
+        "month": "Janvier",
+        "year": "2013"
+      },
+      "dateEnd": {
+        "month": "Février",
+        "year": "2016"
+      }
+    },
+    "place": "Lyon (France)",
+    "profession": "RESPONSABLE D’APPLICATION",
+    "itCompetences": [
+      "Drupal",
+      "WordPress",
+      "Jquery",
+      "PHP",
+      "CSS,",
+      "PhotoShop",
+      "HTML5",
+      "Responsive Design"
+    ],
+    "logo": "francelink-logo.png",
+    "projects": {
+      "francelink": {
+        "logo": "francelink-logo.png",
+        "image": "/static/images/projets/via-rail.jpg"
+      },
+      "recticel insulation": {
+        "logo": "recticel-insulartion-logo.jpg",
+        "image": "/static/images/projets/via-rail.jpg"
+      }
+    }
+  },
+  "tink1": {
+    "name": "Tink",
+    "date": {
+      "dateStart": {
+        "month": "September",
+        "year": "2017"
+      },
+      "dateEnd": {
+        "month": null,
+        "year": null
+      }
+    },
+    "place": "Montréal, QC",
+    "profession": "développeur Web",
+    "itCompetences": [
+      "Drupal8",
+      "JavaScript",
+      "SCSS",
+      "PHP / TWIG",
+      "GIT",
+      "Gulp",
+      "Webpack",
+      "HTML5",
+      "Responsive Design",
+      "JSON",
+      "Agile"
+    ],
+    "logo": "tink-logo.png",
+    "projects": {
+      "via-rail": {
+        "logo": "via-rail.png",
+        "image": "/static/images/projets/via-rail.jpg"
+      }
+    }
+  }
+}

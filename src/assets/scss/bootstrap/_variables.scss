@@ -1,0 +1,37 @@
+html {
+  overflow-x: hidden;
+
+  body {
+    margin: 0;
+    font-family: Quicksand,'Cuprum', sans-serif;
+    font-size: 2rem;
+    line-height: 1.3;
+    color: map-get($map: $colors, $key: doveGray);
+    background-color: #fff;
+
+    &.menu-on {
+      margin-left: -250px;
+
+      .backgroundImage,
+      .block-header,
+      .bh-containers {
+        margin-left: -250px;
+      }
+
+      .primary-menu {
+        right: 0;
+      }
+    }
+  }
+}
+
+.menu-on,
+.block-header,
+.primary-menu,
+.bh-containers {
+    transition: .2s;
+}
+
+.backgroundImage{
+    transition: .2s margin
+}
