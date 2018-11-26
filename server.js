@@ -61,16 +61,7 @@ const createPage = (names, name) => {
       console.log("ERROR: " + req)
     } else {
       console.log("SUCCESS")
-      fs.readFile(jsonPath + name + ".json", 'utf-8', (err, datas) => {
-        if (err) {
-          console.log("ERROR GET PAGE " + names + ": " + err);
-        } else {
-          console.log("SUCESS GET PAGE " + names);
-
-          services.jsonReadFile(res, jsonPath + name + ".json", name);
-
-        }
-      })
+      services.jsonDeleteFile(req, res, jsonPath + name + ".json", name);
     }
   })
 
@@ -80,9 +71,8 @@ const createPage = (names, name) => {
       console.log("ERROR: " + req)
     } else {
       if (req.params.type == "add") {
-        services.jsonEAddFile(req, res, jsonPath + name + ".json", name);
-      }
-      else if (req.params.type == "edit") {
+        services.jsonAddFile(req, res, jsonPath + name + ".json", name);
+      } else if (req.params.type == "edit") {
         services.jsonEditFile(req, res, jsonPath + name + ".json", name, req.params.element);
       }
     }
@@ -92,8 +82,11 @@ const createPage = (names, name) => {
     if (!req.body) {
       return res.sendStatus(500)
     } else {
-
-      services.jsonEditFile(req, res, jsonPath + name + ".json", name, req.params.element);
+      if (req.params.type == "add") {
+        services.jsonAddFile(req, res, jsonPath + name + ".json", name);
+      } else if (req.params.type == "edit") {
+        services.jsonEditFile(req, res, jsonPath + name + ".json", name, req.params.element);
+      }
     }
   })
 }

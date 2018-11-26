@@ -15,7 +15,7 @@
   </div>
   <a href="/<%= content %>/edit/<%= sendData.id %>" class="btn btn-primary">Modifier</a>
   <form method="post" class="m-0">
-    <input type="hidden" name="delete-<%= content %>-<%= sendData.id %>" value="<%= content %>-<%= sendData.id %>">
+    <input type="hidden" name="delete" value="<%= sendData.id %>">
     <button type="submit" href="/<%= content %>/edit/<%= sendData.id %>" class="btn btn-primary">Supprimer</a>
   </form>
 </div>
