@@ -1,4 +1,33 @@
 <footer>
     <script src="https://code.jquery.com/jquery-3.3.1.min.js" integrity="sha256-FgpCb/KJQlLNfOu91ta32o/NMZxltwRo8QtmkMRdAu8=" crossorigin="anonymous"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.bundle.min.js" integrity="sha384-pjaaA8dDz/5BgdFUPX6M/9SUZv4d12SUPF0axWc+VRZkx5xU3daN+lYb49+Ax+Tl" crossorigin="anonymous"></script>
+    <script>
+        const clickOnSelector = (selector) => {
+            var splitSelector = selector.split('-')
+            var getValue = document.querySelector("#" + splitSelector[0] + '-' + splitSelector[1]).value
+            var getValueArrays = []
+            var getValueArray = []
+
+            if(getValue){
+                getValueArray.push(getValue)
+            }
+            if(getValueArray.toString().split(',').indexOf(splitSelector[2]) == -1){
+                console.log("success")
+                getValueArray.push(splitSelector[2])                    
+            } else {
+                console.log("Error")
+                for(items of getValue.toString().split(',')){
+                    if(items != splitSelector[2]){
+                        getValueArrays.push(items)
+                    }
+                }
+                getValueArray = getValueArrays
+            }
+            document.querySelector("#" + splitSelector[0] + '-' + splitSelector[1]).value = getValueArray;
+           event.target.classList.toggle('btn-success') 
+           event.target.classList.toggle('btn-danger') 
+           event.target.classList.toggle('active') 
+
+        }
+    </script>
 </footer>

@@ -1,10 +1,16 @@
 
-<% for (listJson of listJsons) { %>
 
-<div class="form-check form-check-inline">
-  <input class="form-check-input" name="select-<%= type %>-<%= listJson.id %>" type="checkbox" id="select-<%= type %>-<%= listJson.id %>" value="<%= listJson.name %>">
-  <label class="form-check-label" for="select-<%= type %>-<%= listJson.id %>"><%= listJson.name %></label>
-</div>
+<div class="position-relative mb-3">
+<label for="selector-<%= getInterface %>" class="font-weight-bold"><%- label %></label>
+<input type="text" hidden name="<%= getInterface %>" value="<%= getSelector %>" id="selector-<%= getInterface %>">
 
-
+<% for (items of selector) { %>
+  <button onclick="clickOnSelector('selector-<%= getInterface %>-<%= items.id %>')" 
+    id="<%= getInterface %>-<%= items.id %>" 
+    class="btn <% if(getSelector) { %><%- getSelector.split(',').includes(items.id.toString()) ? 'btn-success' : 'btn-danger' %><% } else { %>btn-danger<% } %> m-1" 
+    type="button"><%= items.name %>
+  </button>
 <% } %>
+
+
+</div>

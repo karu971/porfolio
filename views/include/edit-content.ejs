@@ -1,13 +1,25 @@
+
 <form class="" method="post">
-  <div>
-    <% for (getInterface of getInterfaces) { %>
-      <% if (getInterface != "id") { %>
-        <%- include('../form/input.ejs', {
-            sendData: sendDatas,
-            label: getInterface,
-            getInterface: sendDatas[getInterface]
-          }) %>
-      <% } %>
+	<div>
+	<%= listSelector %>
+	<% for (getInterface of getInterfaces) { %>
+	<% if (getInterface != "id") { %>
+		<% if (listSelector[getInterface]) { %>
+				<%- include('../form/select.ejs', {
+					selector: listSelector[getInterface],
+					getSelector: sendDatas[getInterface],
+					getInterface,getInterface,
+					label: getInterface,
+				}) %>
+				<hr>
+			<% } else { %>
+					<%- include('../form/input.ejs', {
+						sendData: sendDatas,
+						label: getInterface,
+						getInterface: sendDatas[getInterface]
+					}) %>
+				<% } %>
+			<% } %>
     <% } %>
   </div>
   <button type="submit" class="btn btn-primary">Modifier</button>

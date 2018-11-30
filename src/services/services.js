@@ -1,21 +1,62 @@
-const fs = require('fs')
+/* eslint-disable eqeqeq */
+/* eslint-disable no-multiple-empty-lines */
+var fs = require('fs')
 
-const getInterface = require('./interface')
+var getInterface = require('./interface')
 
-const jsonReadFile = (res, file, content) => {
+var listSelector = []
+
+var getListSelector = (item) => {
+  listSelector[item] = JSON.parse(fs.readFileSync('static/json/' + item + '.json', 'utf-8'))
+}
+
+
+
+var checkGetTypeJson = (typeRequest, getId, getReqBodys) => {
+  var splitGetReqBodysCategory = []
+  // Récupérer la listSelector
+  for (var getCategory of Object.keys(listSelector['listSelector'])) {
+    if (getReqBodys[getCategory] !== '') {
+      // Récupéere chaque Object de la getCategory
+      if (typeRequest == 'add') {
+        splitGetReqBodysCategory = getReqBodys[getCategory].split(',')
+        for (const items of splitGetReqBodysCategory) {
+          if (listSelector['listSelector'][getCategory][getId] == undefined) {
+            listSelector['listSelector'][getCategory][getId] = getId
+            listSelector['listSelector'][getCategory][getId] = [parseInt(items)]
+          } else if (!listSelector['listSelector'][getCategory][getId].includes(parseInt(items))) {
+            listSelector['listSelector'][getCategory][getId].push(parseInt(items))
+          }
+        }
+      } else if (typeRequest == 'edit') {
+        splitGetReqBodysCategory = getReqBodys[getCategory].split(',')
+        listSelector['listSelector'][getCategory][parseInt(getId)] = splitGetReqBodysCategory
+      } else if (typeRequest == 'delete') {
+        delete listSelector['listSelector'][getCategory][parseInt(getId)]
+      }
+    }
+  }
+  return fs.writeFileSync('static/json/listSelector.json', JSON.stringify(listSelector['listSelector']))
+}
+
+
+var jsonReadFile = (res, file, content) => {
   var listJsonsArray = []
-  fs.readFile(file, 'utf-8', (err, datas) => {
+  fs.readFile(file, 'utf-8', (err) => {
     if (err) {
       console.log('Error: Services ReadOny: ' + err)
     } else {
-      for (const items of Object.keys(getInterface)) {
-        listJsonsArray[items] = JSON.parse(fs.readFileSync('static/json/' + items + '.json', 'utf-8'))
-      }
+      for (var items in Object.keys(getInterface)) {
+        var item = Object.keys(getInterface)[items]
 
+        var getInterFaceValue = JSON.parse(fs.readFileSync('static/json/' + item + '.json', 'utf-8'))
+        listJsonsArray[Object.keys(getInterface)[items]] = getInterFaceValue
+      }
       res.render('content', {
         content: content,
-        getInterfaces: getInterface[content],
+        getInterfaces: Object.keys(getInterface[content]),
         type: 'show',
+        listSelector: listSelector,
         sendDatas: listJsonsArray[content]
       })
     }
@@ -23,16 +64,20 @@ const jsonReadFile = (res, file, content) => {
 }
 
 
+getListSelector('listSelector')
+getListSelector('competence')
+getListSelector('language')
+getListSelector('getId')
 
 exports.jsonReadFile = (res, file, content) => {
   jsonReadFile(res, file, content)
 }
 
 exports.jsonDeleteFile = (req, res, file, content) => {
-  const sendDatas = []
-  const getJsons = JSON.parse(fs.readFileSync(file, 'utf-8'))
-  for (const getJson in getJsons) {
-    if (getJsons[getJson].id == req.body['delete']) {
+  var getJsons = JSON.parse(fs.readFileSync(file, 'utf-8'))
+  for (var getJson in getJsons) {
+    if (parseInt(getJsons[getJson].id) === parseInt(req.body['delete'])) {
+      checkGetTypeJson('delete', parseInt(req.body['delete']), req.body)
       getJsons.splice(getJson, 1)
     }
   }
@@ -45,29 +90,31 @@ exports.jsonDeleteFile = (req, res, file, content) => {
   })
 
   jsonReadFile(res, file, content)
-
 }
 
 exports.jsonEditFile = (req, res, file, content, id) => {
   var sendDatas = null
   var listJsonsArray = []
 
-  const getJsons = JSON.parse(fs.readFileSync(file, 'utf-8'))
+  var getJsons = JSON.parse(fs.readFileSync(file, 'utf-8'))
 
-  for (const getJson of getJsons) {
+  for (var getJson of getJsons) {
     if (getJson.id == id && req.body) {
       sendDatas = getJson
     }
   }
-  for (const items of Object.keys(getInterface)) {
-    listJsonsArray[items] = JSON.parse(fs.readFileSync('static/json/' + items + '.json', 'utf-8'))
+  for (var items in Object.keys(getInterface)) {
+    var item = Object.keys(getInterface)[items]
+    var getInterFaceValue = JSON.parse(fs.readFileSync('static/json/' + item + '.json', 'utf-8'))
+    listJsonsArray[Object.keys(getInterface)[items]] = getInterFaceValue
   }
 
   if (req.method == 'POST') {
 
-    for (const getJson in getJsons) {
+
+    for (getJson in getJsons) {
       if (getJsons[getJson].id == id) {
-        for (const iterator of getInterface[content]) {
+        for (var iterator of Object.keys(getInterface[content])) {
           if (iterator != 'id') {
             getJsons[getJson][iterator] = req.body[iterator]
           }
@@ -75,49 +122,61 @@ exports.jsonEditFile = (req, res, file, content, id) => {
       }
     }
 
+    checkGetTypeJson(req.params.type, req.params.element, req.body)
+
     fs.writeFile(file, JSON.stringify(getJsons), (err) => {
       if (err) {
         console.log('ERROR jsonEditFile writeFile: ' + err)
       } else {
-
         res.redirect('/' + content + 's')
       }
     })
   } else {
-
     res.render('content', {
       content: content,
-      getInterfaces: getInterface[content],
+      getInterfaces: Object.keys(getInterface[content]),
+      listSelector: listSelector,
       type: 'edit',
       sendDatas: sendDatas
+
     })
   }
 }
 
 exports.jsonAddFile = (req, res, file, content) => {
+  var getReqBody = []
   let sendDatas = []
-  let newArray = {}
   let getJsons = []
-  let lastId = []
+  let newId = []
+  let newArray = {}
 
-  sendDatas.push(getInterface[content])
+  sendDatas.push(Object.keys(getInterface[content]))
 
   if (req.method == 'POST') {
     console.log('SUCCESS POST')
     getJsons = JSON.parse(fs.readFileSync(file, 'utf-8'))
-    lastId = getJsons[getJsons.length - 1]['id']
+    if (getJsons.length !== 0) {
+      newId = JSON.parse(fs.readFileSync('static/json/getId.json', 'utf-8'))[content] + 1
+    } else {
+      newId = 0
+    }
+    getReqBody = req.body
 
-    for (const item of getInterface[content]) {
+    // Mise à jour du fichier listSelector.json
+    checkGetTypeJson(req.params.type, newId, getReqBody)
+
+
+    for (var items in Object.keys(getInterface[content])) {
+      var item = Object.keys(getInterface[content])[items]
       if (item == 'id') {
-        newArray['id'] = lastId + 1
+        newArray['id'] = newId
       } else {
         newArray[item] = req.body[item]
       }
     }
     getJsons.push(newArray)
-
-    console.log(getJsons)
-
+    listSelector['getId'][content] = newId
+    fs.writeFileSync('static/json/getId.json', JSON.stringify(listSelector['getId']))
     fs.writeFile(file, JSON.stringify(getJsons), (err) => {
       if (err) {
         console.log('Error jsonAddFile writeFile: ' + err)
@@ -130,9 +189,10 @@ exports.jsonAddFile = (req, res, file, content) => {
     console.log('SUCCESS GET')
     res.render('content', {
       content: content,
-      getInterfaces: getInterface[content],
-      type: 'edit',
-      sendDatas: sendDatas
+      getInterfaces: Object.keys(getInterface[content]),
+      type: 'add',
+      sendDatas: sendDatas,
+      listSelector: listSelector
     })
   }
 }

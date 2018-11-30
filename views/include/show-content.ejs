@@ -1,5 +1,8 @@
-<% for (sendData of sendDatas) { %>
 
+
+
+
+<% for (sendData of sendDatas) { %>
 <div class="d-flex justify-content-between align-items-center">
   <div>
     <% for (getInterface of getInterfaces) { %>
@@ -8,7 +11,35 @@
       <strong>
         <%= getInterface %>:
       </strong>
-      <%= sendData[getInterface] %>
+      <% if (listSelector[getInterface]) { %>
+        <div class="d-flex">
+        <% for (items of sendData[getInterface].split(',')) { %>
+          <% for (items2 of listSelector[getInterface]) { %>
+            <% if (items == items2['id']) { %>
+            <div class="p-3 m-3 shadow border position-relative">
+            <div style="" class="position-absolute"></div>
+              <div class="text-white"
+                  style="
+                  width:150px;
+                  height:100px;
+                  background-image:url(images/<%= getInterface %>s/<%= items2.image %>);
+                  background-repeat:no-repeat;
+                  background-size:contain;
+                  background-position:center center;
+                  ">
+                </div>
+                <p style="z-index:1; background: #333; width: 100%; top: 0; left: 0; z-index:0" class="p-1 mb-0 mt-3 position-relative text-center text-white"><%= items2.name %></p>
+            </div>
+            <% } %>
+          <% } %>
+
+
+        <% } %>
+      </div>
+      <% } else { %>
+        <%= sendData[getInterface] %>
+        <hr>
+      <% } %>
       <% } %>
     </div>
     <% } %>

@@ -1,24 +1,26 @@
-exports.experience = [
-  'id',
-  'name',
-  'profession',
-  'place',
-  'logo',
-  'startDateMonth',
-  'startDateYear',
-  'endDateMonth',
-  'endDateYear'
-]
+exports.experience = {
+  id: Number,
+  name: String,
+  profession: String,
+  place: String,
+  logo: String,
+  startDateMonth: String,
+  startDateYear: String,
+  endDateMonth: String,
+  endDateYear: String,
+  competence: Array,
+  language: Array
+}
 
-exports.competence = [
-  'id',
-  'name',
-  'image',
-  'bgColor'
-]
-exports.language = [
-  'id',
-  'name',
-  'image',
-  'bgColor'
-]
+exports.competence = {
+  id: Number,
+  name: String,
+  image: String,
+  bgColor: String
+}
+exports.language = {
+  id: Number,
+  name: String,
+  image: String,
+  bgColor: String
+}
